@@ -1,6 +1,7 @@
-
-from flask import Blueprint, render_template, request,jsonify
+from flask import Blueprint, render_template, request
 import pymysql
+from utils import db
+from werkzeug.security import generate_password_hash, check_password_hash
 ac=Blueprint('account',__name__)
 
 @ac.route('/login',methods=['GET','POST'])
@@ -10,14 +11,8 @@ def login():
 
     email=request.form.get('email')
     password=request.form.get('password')
-    conn =pymysql.connect(host='127.0.0.1',port=3306,user='root',password='a3022535842',db='kimoServer',charset='utf8')
-    cursor=conn.cursor()
-    cursor.execute('select * from userInfo where email=%s and password=%s',[email,password])
-    user_dict=cursor.fetchone()
-    print(user_dict)
-    cursor.close()
-    conn.close()
-    if user_dict:
+    result=db.fetch_one('select * from userInfo where email=%s and password=%s',[email,password])
+    if result:
      return render_template('/index.html')
 
     return render_template('login.html',error="请重新尝试")
@@ -26,21 +21,11 @@ def login():
 def register():
     if request.method == 'GET':
         return render_template('login.html')
-
+    username=request.form.get('username')
     email = request.form.get('email')
     password = request.form.get('password')
-    conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='a3022535842', db='kimoServer',
-                           charset='utf8')
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO userInfo(email,password) VALUES(%s,%s)',[email,password])
-    conn.commit()
-    user_dict = cursor.fetchone()
-    print(user_dict)
-    cursor.close()
-    conn.close()
-    if user_dict:
-        print('success' ,user_dict)
-        return render_template('/index.html')
+    result =db.register_user('INSERT INTO userInfo(email,password,user_name) VALUES(%s,%s,%s)',[email,password,username])
+    login()
 
     return render_template('login.html', error="请重新尝试")
 

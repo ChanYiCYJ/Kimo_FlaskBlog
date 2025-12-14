@@ -50,6 +50,10 @@
 
         <div class="tab-pane fade" id="register">
           <form method="post" action="/register">
+              <div class="form-floating mb-3">
+              <input type="password" class="form-control" name="username" required>
+              <label>UserName</label>
+            </div>
             <div class="form-floating mb-3">
               <input type="email" class="form-control" name="email" required>
               <label>Email</label>
@@ -59,7 +63,6 @@
               <input type="password" class="form-control" name="password" required>
               <label>Password</label>
             </div>
-
             <button class="btn btn-success w-100">注册</button>
           </form>
         </div>
