@@ -16,5 +16,4 @@ POOL = PooledDB(
     password='a3022535842',
     db='kimoServer',
     charset='utf8'
-
 )

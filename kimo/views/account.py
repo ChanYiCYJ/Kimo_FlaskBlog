@@ -1,3 +1,4 @@
+
 from flask import Blueprint, render_template, request,jsonify
 import pymysql
 ac=Blueprint('account',__name__)
@@ -21,9 +22,27 @@ def login():
 
     return render_template('login.html',error="请重新尝试")
 
-@ac.route('/register')
+@ac.route('/register',methods=['GET','POST'])
 def register():
-    return "Register"
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    email = request.form.get('email')
+    password = request.form.get('password')
+    conn = pymysql.connect(host='127.0.0.1', port=3306, user='root', password='a3022535842', db='kimoServer',
+                           charset='utf8')
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO userInfo(email,password) VALUES(%s,%s)',[email,password])
+    conn.commit()
+    user_dict = cursor.fetchone()
+    print(user_dict)
+    cursor.close()
+    conn.close()
+    if user_dict:
+        print('success' ,user_dict)
+        return render_template('/index.html')
+
+    return render_template('login.html', error="请重新尝试")
 
 @ac.route('/logout')
 def logout():
