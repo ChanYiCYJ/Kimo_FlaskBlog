@@ -1,6 +1,9 @@
 import pymysql
 from dbutils.pooled_db import PooledDB
 from pymysql import cursors
+from werkzeug.security import generate_password_hash, check_password_hash
+from Kimo.config import load_config
+db = 'database'
 POOL = PooledDB(
     creator=pymysql,
     maxconnections=10,
@@ -10,13 +13,15 @@ POOL = PooledDB(
     blocking=True,
     maxusage=None,
     ping=0,
-    host='127.0.0.1',
-    port=3306,
-    user='root',
-    password='a3022535842',
-    db='kimoServer',
-    charset='utf8'
+    host=load_config(db,'host'),
+    port=load_config(db,'port'),
+    user=load_config(db,'user'),
+    password=load_config(db,'password'),
+    db=load_config(db,'name'),
+    charset=load_config(db,'charset')
 )
+
+
 
 def fetch_one(sql,params):
     conn = POOL.connection()
@@ -45,3 +50,9 @@ def fetchall(sql):
     cursor.close()
     conn.close()
     return result
+
+def hash_password(password: str) -> str:
+    return generate_password_hash(password)
+
+def verify_password(password: str, password_hash: str) -> bool:
+    return check_password_hash(password_hash, password)

@@ -1,5 +1,5 @@
 <div align=center>
 # Kimo
 
-<p>一个轻量化的博客前后端</p>
+<p>一个轻量化的Flask后端博客</p>
 </div>
