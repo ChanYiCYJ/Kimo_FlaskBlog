@@ -55,3 +55,51 @@ Kimo is a lightweight blog backend system built with the Flask framework. It pro
 ```bash
 git clone https://github.com/ChanYiCYJ/Kimo.git
 cd Kimo
+```
+
+2. Create a virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux / Mac
+venv\Scripts\activate    # Windows
+```
+
+3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+4. Configure the database
+
+Edit `config.json`:
+```json
+{
+  "database": {
+    "host": "your-db-host",
+    "port": 3306,
+    "user": "your-username",
+    "password": "your-password",
+    "name": "kimoServer",
+    "charset": "utf8"
+  }
+}
+```
+
+5. Run the application
+```bash
+python app.py
+```
+
+Application will start at: `http://localhost:5000`
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+## 👤 Author
+
+**ChanYiCYJ**
+
+---
+
+Made with ❤️ by ChanYiCYJ
