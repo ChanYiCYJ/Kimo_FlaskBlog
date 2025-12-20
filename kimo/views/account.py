@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request,redirect,url_for
 import pymysql
 from utils import db
 ac=Blueprint('account',__name__)
@@ -11,9 +11,10 @@ def login():
     email=request.form.get('email')
     password=request.form.get('password')
     result=db.fetch_one('select * from userInfo where email=%s and password=%s',[email,password])
+    print(result)
     if result:
      print(result)
-     return render_template('/index.html')
+     return redirect(url_for('blog.index'))
 
     return render_template('login.html',error="请重新尝试")
 
@@ -44,3 +45,9 @@ def logout():
 @ac.route('/users')
 def users():
     return "Users"
+
+@ac.route('/dashboard')
+def dashboard():
+    if request.method=='GET':
+        return render_template('dashboard.html')
+    return render_template('/dashboard.html')
