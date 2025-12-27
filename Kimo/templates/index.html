@@ -3,64 +3,66 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{config.title}}</title>
+    <title>{{ config.title }}</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-light">
+<body class="bg-gray-100 text-gray-800">
 
-
-
-<header class="py-5 bg-white border-bottom">
-  <div class="container">
-    <h1 class="fw-bold">{{ config.title }}</h1>
-      <p class="text-muted">{{ config.introduction }} </p>
+<!-- Header -->
+<header class="bg-white border-b">
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <h1 class="text-4xl font-bold mb-2">{{ config.title }}</h1>
+        <p class="text-gray-500">{{ config.introduction }}</p>
   </div>
-    <nav class="navbar navbar-expand-lg ">
-  <div class="container">
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="/">首页</a></li>
-        <li class="nav-item"><a class="nav-link" href="/about">关于</a></li>
-          {% if dashboard %}
-        <li class="nav-item"><a class="nav-link" href="/about">Dashboard</a></li>
-          {% endif %}
-      </ul>
-    </div>
-  </div>
-</nav>
+
+    <!-- Nav -->
+    <nav class="border-t">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-end gap-6 text-sm">
+            <a class="hover:text-blue-600" href="/">首页</a>
+            <a class="hover:text-blue-600" href="/about">关于</a>
+            {% if dashboard %}
+            <a class="hover:text-blue-600" href="/dashboard">Dashboard</a>
+            {% endif %}
+        </div>
+    </nav>
 </header>
 
-<main class="container my-5">
-  <div class="row">
+<!-- Main -->
+<main class="max-w-6xl mx-auto px-4 my-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-    <!-- 文章列表 -->
-    <div class="col-md-8">
+        <!-- Posts -->
+        <div class="md:col-span-2 space-y-6">
       {% for post in posts %}
-        <div class="card mb-4 ">
-        <div class="card-body">
-          <h3 class="card-title">{{ post.title }}</h3>
-          <p class="card-text text-muted">{{ post.summary }}</p>
-            <a class="btn btn-outline-primary" href="/archive/{{ post.title }}">Read</a>
-        </div>
-      </div>
+            <article class="bg-white rounded-xl shadow-sm p-6 hover:shadow transition">
+                <h2 class="text-xl font-semibold mb-2">
+                    {{ post.title }}
+                </h2>
+                <p class="text-gray-500 mb-4">
+                    {{ post.summary }}
+                </p>
+                <a class="inline-block text-sm border px-4 py-2 rounded-lg hover:bg-gray-100"
+                   href="/archive/{{ post.title }}">
+                    Read →
+                </a>
+            </article>
       {% endfor %}
     </div>
 
-    <!-- 侧栏 -->
-    <div class="col-md-4">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h5>关于我</h5>
-          <p class="text-muted">学生 / 技术爱好者</p>
-        </div>
-      </div>
-    </div>
+        <!-- Sidebar -->
+        <aside class="space-y-6">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="font-semibold mb-2">关于我</h3>
+                <p class="text-gray-500 text-sm">
+                    学生 / 技术爱好者
+                </p>
+            </div>
+        </aside>
 
   </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
