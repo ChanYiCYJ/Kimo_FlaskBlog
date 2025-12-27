@@ -1,18 +1,17 @@
 {
   "app": {
     "config": {
-
     "title": "Hello World",
-    "content": "Hello World"
+      "introduction": "Hello World"
     }
     },
 
-  
+
   "database": {
-    "host": "your-db-host",
+    "host": "127.0.0.1",
     "port": 3306,
-    "user": "your-username",
-    "password": "your-password",
+    "user": "root",
+    "password": "a3022535842",
     "name": "kimoServer",
     "charset": "utf8"
   }

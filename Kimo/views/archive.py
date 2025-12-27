@@ -7,7 +7,7 @@ from utils import db
 bg=Blueprint('archive',__name__)
 
 @bg.route('/',methods=['GET','POST'])
-def archive_list():
+def index():
     dsb = session.get('user_role')
     post = db.fetchall('select * from blog')
     config =load_config('app','config')

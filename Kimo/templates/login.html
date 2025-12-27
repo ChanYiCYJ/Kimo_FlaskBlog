@@ -5,104 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ loginTitle }}</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-light">
+<body class="bg-gray-100">
 
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card shadow-sm" style="width: 400px;">
-    <div class="card-body">
+<div class="min-h-screen flex items-center justify-center gap-16 px-4">
 
-      <ul class="nav nav-pills mb-4 justify-content-center">
-        <li class="nav-item">
-          <button class="nav-link active"
-                  data-bs-toggle="pill"
-                  data-bs-target="#login"
-                  type="button">登录</button>
-        </li>
-        <li class="nav-item">
-          <button class="nav-link"
-                  data-bs-toggle="pill"
-                  data-bs-target="#register"
-                  type="button">注册</button>
-        </li>
-      </ul>
+    <!-- 左侧标题 -->
+    <h1 class="text-4xl font-bold text-gray-800 w-80">
+        {{ config.title }}
+    </h1>
 
-      <div class="tab-content">
+    <!-- 卡片 -->
+    <div class="w-full max-w-sm bg-white rounded-xl shadow p-6">
 
-        <div class="tab-pane fade show active" id="login">
-          <form method="post" action="/login">
-            <div class="form-floating mb-3">
-              <input  class="form-control" name="email" required>
-              <label>Email or Name</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="password" required>
-              <label>Password</label>
-            </div>
-
-            <button class="btn btn-primary w-100">登录</button>
-          </form>
+        <!-- Tabs -->
+        <div class="flex mb-6 bg-gray-100 rounded-lg p-1">
+            <button class="flex-1 py-2 text-sm font-medium rounded-md bg-white shadow"
+                    id="loginBtn">
+                登录
+            </button>
+            <button class="flex-1 py-2 text-sm text-gray-500 rounded-md"
+                    id="registerBtn">
+                注册
+            </button>
         </div>
 
-        <div class="tab-pane fade" id="register">
-          <form method="post" action="/register">
-              <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="username" required>
-              <label>UserName</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" name="email" required>
-              <label>Email</label>
-            </div>
+        <!-- 登录 -->
+        <form action="/login" class="space-y-4" id="loginForm" method="post">
+            <input class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring" name="userInfo"
+                   placeholder="Email or Name"
+                   required/>
 
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" name="password" required>
-              <label>Password</label>
-            </div>
-            <button class="btn btn-success w-100">注册</button>
-          </form>
-        </div>
+            <input class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring" name="password" placeholder="Password"
+                   required
+                   type="password"/>
 
-      </div>
+            <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                登录
+            </button>
+        </form>
+
+        <!-- 注册 -->
+        <form action="/register"
+              class="space-y-4 hidden"
+              id="registerForm"
+              method="post">
+
+            <input class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring" name="username"
+                   placeholder="UserName"
+                   required/>
+
+            <input class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring" name="email" placeholder="Email"
+                   required
+                   type="email"/>
+
+            <input class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring" name="password" placeholder="Password"
+                   required
+                   type="password"/>
+
+            <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+                注册
+            </button>
+        </form>
 
     </div>
-  </div>
 </div>
 
-{% if error %}
-<!-- ✅ Modal HTML 一定要在 JS 之前 -->
-<div class="modal fade" id="errorModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-danger">出错了，这不是我们的问题</h5>
-      </div>
-      <div class="modal-body">
-        {{ error }}
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-bs-dismiss="modal">我知道了</button>
-      </div>
-    </div>
+<!-- Modal -->
+{% if modal %}
+<div class="fixed inset-0 bg-black/40 flex items-center justify-center"
+     id="modal">
+    <div class="bg-white rounded-xl w-80 p-6 text-center">
+        <h3 class="font-semibold mb-3">提示</h3>
+        <p class="text-gray-600 mb-4">{{ modal }}</p>
+        <button class="px-4 py-2 bg-gray-200 rounded-lg"
+                onclick="closeModal()">
+            我知道了
+        </button>
   </div>
 </div>
 {% endif %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-{% if error %}
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const modalEl = document.getElementById("errorModal");
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
-  });
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const loginForm = document.getElementById("loginForm");
+    const registerForm = document.getElementById("registerForm");
+
+    loginBtn.onclick = () => {
+      loginForm.classList.remove("hidden");
+      registerForm.classList.add("hidden");
+      loginBtn.classList.add("bg-white", "shadow");
+      registerBtn.classList.remove("bg-white", "shadow");
+    };
+
+    registerBtn.onclick = () => {
+      registerForm.classList.remove("hidden");
+      loginForm.classList.add("hidden");
+      registerBtn.classList.add("bg-white", "shadow");
+      loginBtn.classList.remove("bg-white", "shadow");
+    };
+
+    function closeModal() {
+      document.getElementById("modal").remove();
+    }
 </script>
-{% endif %}
 
 </body>
 </html>
