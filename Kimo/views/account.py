@@ -61,9 +61,9 @@ def users():
 def dashboard():
     if request.method=='GET':
         check_user = session.get('user_role')
-
+        article = 'Dashboard'
         if check_user == 0:
-            return render_template('dashboard.html')
+            return render_template('dashboard.html', page_title=article, article=article)
 
         print(check_user)
     return redirect(url_for('account.login'))
