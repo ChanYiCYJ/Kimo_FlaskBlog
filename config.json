@@ -1,20 +1,26 @@
 {
   "app": {
     "config": {
+
     "title": "Hello World",
-      "introduction": "Hello World"
+    "introduction": "Hello World",
+    "theme": "Default"
     }
     },
 
 
   "database": {
-    "host": "127.0.0.1",
-    "port": 3306,
-    "user": "root",
-    "password": "a3022535842",
-    "name": "kimoServer",
-    "charset": "utf8"
-  }
+    "host": "mysql2.sqlpub.com",
+    "port": 3307,
+    "user": "jasonchan1145",
+    "password": "D3m0sl1BIKrlD06u",
+    "name": "kimo_server",
+    "charset": "utf8mb4"
+  },
 
+  "redis" : {
+    "host":"localhost",
+    "port":6379
+  }
 
 }
