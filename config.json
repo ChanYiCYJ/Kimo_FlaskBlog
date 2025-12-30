@@ -1,12 +1,15 @@
 {
   "app": {
     "config": {
+
     "title": "Hello World",
-      "introduction": "Hello World"
+    "introduction": "Hello World",
+    "theme": "Default"
     }
     },
 
 
+  
   "database": {
     "host": "your-db-host",
     "port": 3306,
@@ -16,5 +19,10 @@
     "charset": "utf8mb4"
   }
 
+
+  "redis" : {
+    "host":"your-redis-host",
+    "port":6379
+  }
 
 }

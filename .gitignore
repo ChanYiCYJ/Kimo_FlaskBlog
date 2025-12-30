@@ -1,5 +1,5 @@
 config.json
 .idea/
 .venv/
-_pychache_
 .DS_Store
+__pycache__
