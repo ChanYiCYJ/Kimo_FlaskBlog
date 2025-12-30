@@ -1,1 +1,6 @@
 config.json
+.idea/
+.venv/
+_pychache_/
+*.pyc
+.DS_Store
