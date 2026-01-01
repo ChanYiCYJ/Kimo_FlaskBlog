@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+    {% block content %}
+        <!-- tag -->
+      {% for post in posts %}
+            <article class="bg-white rounded-xl shadow-sm p-6 hover:shadow transition">
+                <h2 class="text-xl font-semibold mb-2">
+                    {{ post.title }}
+                </h2>
+                <p class="text-gray-500 mb-4">
+                    {{ post.summary }}
+                </p>
+                <a class="inline-block text-sm border px-4 py-2 rounded-lg hover:bg-gray-100"
+                   href="/archive/{{ post.title }}">
+                    Read →
+                </a>
+            </article>
+      {% endfor %}
+    {% endblock %}
+  

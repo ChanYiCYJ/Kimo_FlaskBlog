@@ -29,17 +29,54 @@
             {% block footer %}
             <aside class="space-y-6">
                 <div class="bg-white rounded-xl shadow-sm p-6">
-                    <h3 class="font-semibold mb-2">关于我</h3>
-                    <p class="text-gray-500 text-sm">
-                        学生 / 技术爱好者
-                    </p>
+                    <h3 class="font-semibold mb-2">分类</h3>
+                    <section class="w-full overflow-hidden">
+    <div class="flex gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
+        {% if categorys %}
+        {% for category in categorys %}
+        <button class="flex h-9 shrink-0 items-center justify-center px-5 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary/50 text-[#111618] dark:text-white transition-all active:scale-95">
+            <span class="text-sm font-medium">{{ category.name }}</span>
+        </button>
+        {% endfor %}
+        {% else %}
+        <div class="text-center text-gray-400 py-1">
+    暂无分类
+    </div>
+    {% endif %}
+    </div>
+            </SECTION>
+                </div>
+            </aside>
+
+            <aside class="space-y-6 mt-5">
+
+
+                <div class="bg-white rounded-xl shadow-sm p-6">
+                    <h3 class="font-semibold mb-2">标签</h3>
+                    <section class="w-full overflow-hidden">
+    <div class="flex gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
+        {% if tags %}
+        {% for tag in tags %}
+        <button class="flex h-9 shrink-0 items-center justify-center px-5 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary/50 text-[#111618] dark:text-white transition-all active:scale-95">
+            <span class="text-sm font-medium">{{ tag.tagName }}</span>
+        </button>
+
+        {% endfor %}
+        {% else %}
+        <div class="text-center text-gray-400 py-1">
+    暂无标签
+    </div>
+    {% endif %}
+    </div>
+            </SECTION>
                 </div>
             </aside>
             {% endblock %}
         </div>
     </div>
 </main>
-
+{% block other %}
+    {% endblock %}
     <!-- Modal -->
 {% if modal %}
 <div class="fixed inset-0 bg-black/40 flex items-center justify-center"

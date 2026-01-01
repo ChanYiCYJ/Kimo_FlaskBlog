@@ -1,0 +1,36 @@
+<article
+  class="bg-white rounded-2xl shadow-sm p-6 transition
+         hover:shadow-md hover:-translate-y-0.1"
+>
+  <div class="flex flex-col gap-4">
+
+    <!-- Tag / Badge -->
+    <span
+      class="w-fit inline-flex items-center
+             px-3 py-1 text-xs font-semibold uppercase tracking-wider
+             text-primary bg-primary/15
+             rounded-full border border-primary/20"
+    >
+      Our Story
+    </span>
+
+    <!-- Title -->
+    <h2 class="text-xl font-semibold leading-snug">
+      {{ post.title }}
+    </h2>
+
+    <!-- Action -->
+    <a
+      href="/archive/{{ post.title }}"
+      class="inline-flex items-center gap-1
+             text-sm font-medium text-gray-700
+             w-fit px-4 py-2 rounded-full border
+             hover:bg-gray-100 hover:text-gray-900
+             transition"
+    >
+      Read
+      <span class="transition group-hover:translate-x-0.5">→</span>
+    </a>
+
+  </div>
+</article>
