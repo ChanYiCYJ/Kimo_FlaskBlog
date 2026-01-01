@@ -60,10 +60,37 @@ def archive_post():
                 return jsonify({'message': '内容为空'}), 400
 
             try:
-                db.increase('insert into blog(title,content) values (%s,%s)', [title, content])
+                db.implement('insert into blog(title,content) values (%s,%s)', [title, content])
             except Exception as e:
                 return jsonify({'message': str(e)}), 500
 
             return jsonify({'message': 'ok'})
 
     return '无权访问'
+
+
+@bg.route('/edit', methods=['POST'])
+def archive_edit():
+    check_user = session.get('user_role')
+    if check_user == 0:
+        if request.method == 'POST':
+            post_id = request.json.get('post_id')
+            result = db.fetch_one('select * from blog where id=%s', [post_id, ])
+            if result:
+                return result
+            return jsonify({'message': '没有这篇文章'}), 400
+    return '无权访问', 400
+
+
+@bg.route('/delete', methods=['POST'])
+def archive_delete():
+    check_user = session.get('user_role')
+    if check_user == 0:
+        post_id = request.json.get('post_id')
+        check = db.fetch_one('select * from blog where id=%s', [post_id, ])
+        if check:
+            db.implement('delete from blog where id=%s', [post_id, ])
+            return jsonify({'message': '删除成功'})
+
+        return jsonify({'message': '没有这篇文章'}), 400
+    return '无权访问', 400
