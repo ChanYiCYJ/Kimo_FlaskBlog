@@ -42,7 +42,7 @@ def fetch_one(sql,params):
     return result
 
 
-def increase(sql, params):
+def implement(sql, params):
     conn = POOL.connection()
     cursor = conn.cursor()
     cursor.execute(sql,params)

@@ -44,8 +44,8 @@ def register():
         return render_template('login.html', modal="用户已存在，请重新注册")
 
     hash_prd = hash_password(password)
-    db.increase('INSERT INTO userInfo(email,password,user_name) VALUES(%s,%s,%s)',
-                [email, hash_prd, username])
+    db.implement('INSERT INTO userInfo(email,password,user_name) VALUES(%s,%s,%s)',
+                 [email, hash_prd, username])
     return render_template('login.html', modal="注册成功，请登录")
 
 @ac.route('/logout')

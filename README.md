@@ -41,7 +41,9 @@ Kimo is a lightweight blog backend system built with the Flask framework. It pro
 - **Flask** – A lightweight Python web framework for backend APIs
 - **PyMySQL** – A pure-Python MySQL client library
 - **DBUtils** – Database connection pooling for improved performance
-
+- **Vditor** – Easy-to-use Markdown editor, born to adapt to different application scenarios
+- **Markdown** – A Python library for converting Markdown text into HTML
+- **pymdown-extensions** – A collection of powerful extensions that enhance Python Markdown features
 ## 🚀 Quick Start
 
 ### Requirements
