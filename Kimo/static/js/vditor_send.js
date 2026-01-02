@@ -1,6 +1,21 @@
 const vditor = new Vditor('vditor', {
       height: 420,
       placeholder: '在这里输入 Markdown 内容...',
+       toolbar: [
+      'bold',
+      'italic',
+      'strike',
+      'headings',
+      'quote',
+      'code',
+      'inline-code',
+      'list',
+      'ordered-list',
+      'link',
+      'upload',
+      'preview',
+      'fullscreen'
+    ],
       toolbarConfig: { pin: true },
        cache: {
     enable: false
@@ -10,7 +25,8 @@ const vditor = new Vditor('vditor', {
     document.getElementById('sendBtn').addEventListener('click', async () => {
       const title = document.getElementById('titleInput').value.trim();
       const content = vditor.getValue().trim();
-
+      const categoryToggle = document.getElementById('CategoryConditions')
+      const category_id =Number(document.getElementById('categoryId').textContent.trim());
       if (!title) {
         showModal('标题不能为空');
         return;
@@ -21,12 +37,13 @@ const vditor = new Vditor('vditor', {
         return;
       }
 
+
       const res = await fetch('/post', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({ title, content })
+  body: JSON.stringify({ title, content ,category_id})
 });
 
 const data = await res.json();

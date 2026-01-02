@@ -46,30 +46,26 @@ def archive(archive_title):
 
 
 
-@bg.route('/post', methods=['GET', 'POST'])
+@bg.route('/post', methods=[ 'POST'])
 def archive_post():
-    check_user = session.get('user_role')
-    if check_user == 0:
-        config = load_config('app', 'config')
-        if request.method == 'GET':
-            return '不支持GET调用'
 
         if request.method == 'POST':
             print('执行post')
             title = request.json.get('title')
             content = request.json.get('content')
+            category_id = request.json.get('category_id')
             print(content)
             if not content:
                 return jsonify({'message': '内容为空'}), 400
 
             try:
-                db.implement('insert into archives(title,content) values (%s,%s)', [title, content])
+                db.implement('insert into archives(title,content,category_id) values (%s,%s,%s)', [title, content,category_id])
             except Exception as e:
                 return jsonify({'message': str(e)}), 500
 
             return jsonify({'message': 'ok'})
 
-    return '无权访问'
+
 
 @bg.route('/tags', methods=['GET', 'POST'])
 def tags():
@@ -81,15 +77,24 @@ def tags():
 
 @bg.route('/category', methods=['GET', 'POST'])
 def category():
-    category_all = db.fetchall('select * from categories ', )
+    category_all = db.fetchall('select * from categories ', )or []
     if request.method == 'GET':
         config = load_config('app', 'config')
         return render_template('category.html', category_all=category_all,config=config)
     return render_template('category.html', category_all=category_all)
 
 
-@bg.route('/getpost', methods=['POST'])
-def get_post():
+@bg.route('/editor', methods=['GET','POST'])
+def editor():
+    if request.method == 'GET':
+        categories = db.fetchall('select * from categories ', )
+        tag = db.fetchall('select * from tags ', )
+        return render_template('post.html', categories=categories, tags=tag)
+    return render_template('post.html')
+
+@bg.route('/editor/<int:post_id>', methods=['GET', 'POST'])
+def edit(post_id):
+    print(post_id)
     check_user = session.get('user_role')
     if check_user == 0:
         if request.method == 'POST':

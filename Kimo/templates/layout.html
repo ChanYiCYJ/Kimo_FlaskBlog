@@ -76,21 +76,8 @@
     </div>
 </main>
 {% block other %}
-    {% endblock %}
-    <!-- Modal -->
-{% if modal %}
-<div class="fixed inset-0 bg-black/40 flex items-center justify-center"
-     id="modal">
-    <div class="bg-white rounded-xl w-80 p-6 text-center">
-        <h3 class="font-semibold mb-3">提示</h3>
-        <p class="text-gray-600 mb-4">{{ modal }}</p>
-        <button class="px-4 py-2 bg-gray-200 rounded-lg"
-                onclick="closeModal()">
-            我知道了
-        </button>
-  </div>
-</div>
-{% endif %}
+{% endblock %}
+
 
 </body>
     <script>

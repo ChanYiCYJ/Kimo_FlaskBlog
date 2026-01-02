@@ -1,11 +1,18 @@
-{% extends "layout.html" %}
-{% block head %}
-<title>{{ page_title }} - {{ config.title }}</title>
-<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-{% endblock %}
-{% block content %}
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block head %}
+        <title>{{ config.title }}</title>
+    {% endblock %}
+    <!-- Markdown 样式 -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loading.css') }}">
+          <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
 {% include "post.html" %}
-{% endblock %}
-{% block footer %}
-{% endblock %}
+</body>
