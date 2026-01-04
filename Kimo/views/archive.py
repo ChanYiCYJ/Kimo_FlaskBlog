@@ -1,5 +1,5 @@
 import markdown
-from flask import Blueprint, render_template, request, session, jsonify
+from flask import Blueprint, render_template, request, session, jsonify,redirect,url_for
 
 from Kimo.config import load_config
 from utils import db
@@ -11,11 +11,13 @@ def index():
     dsb = session.get('user_role')
     post = db.fetchall('select * from archives')or []
     category_all = db.fetchall('select * from categories ', )or []
+    archive_post = db.fetchall('select ' \
+    'a.id,a.title,a.content,a.created,c.name as category_name from archives a left join categories c on a.category_id=c.id')or []
     tag_all = db.fetchall('select * from tags ', )or []
     config =load_config('app','config')
     if request.method=='GET':
         return render_template('index.html', dashboard=dsb, page_title=config["title"],
-                               page_subtitle=config["introduction"], config=config, posts=post,categorys=category_all,tags=tag_all)
+                               page_subtitle=config["introduction"], config=config, posts=archive_post,categorys=category_all,tags=tag_all)
 
 
     return post
@@ -53,13 +55,20 @@ def archive_post():
             print('执行post')
             title = request.json.get('title')
             content = request.json.get('content')
-            category_id = request.json.get('category_id')
+            category_name = request.json.get('category_name')
             print(content)
+            print(title)
+            print(category_name)
             if not content:
                 return jsonify({'message': '内容为空'}), 400
 
             try:
-                db.implement('insert into archives(title,content,category_id) values (%s,%s,%s)', [title, content,category_id])
+                if not category_name:
+                    category_id = None
+                else:
+                    category_id = db.fetch_one('select id from categories where name=%s', [category_name,])['id']
+                print(category_id)
+                db.implement('insert into archives(title,content,category_id) values (%s,%s,%s)', [title, content,category_id])  
             except Exception as e:
                 return jsonify({'message': str(e)}), 500
 
@@ -86,24 +95,22 @@ def category():
 
 @bg.route('/editor', methods=['GET','POST'])
 def editor():
-    if request.method == 'GET':
-        categories = db.fetchall('select * from categories ', )
-        tag = db.fetchall('select * from tags ', )
-        return render_template('post.html', categories=categories, tags=tag)
-    return render_template('post.html')
+    check_user = session.get('user_role')
+    if check_user == 0:
+        if request.method == 'GET':
+            categories = db.fetchall('select * from categories ', )
+            tag = db.fetchall('select * from tags ', )
+            return render_template('post.html', categories=categories, tags=tag)
+        return render_template('post.html')
 
+    return '无权访问', 400
 @bg.route('/editor/<int:post_id>', methods=['GET', 'POST'])
 def edit(post_id):
     print(post_id)
-    check_user = session.get('user_role')
-    if check_user == 0:
-        if request.method == 'POST':
-            post_id = request.json.get('post_id')
-            result = db.fetch_one('select * from archives where id=%s', [post_id, ])
-            if result:
-                return result
-            return jsonify({'message': '没有这篇文章'}), 400
-    return '无权访问', 400
+    result = db.fetch_one('select * from archives where id=%s', [post_id, ])
+    print(result)
+    return render_template('post.html', postId=result['id'], article=result['content'])
+
 
 
 @bg.route('/delete', methods=['POST'])

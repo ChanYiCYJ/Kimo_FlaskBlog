@@ -3,17 +3,16 @@
          hover:shadow-md hover:-translate-y-0.1"
 >
   <div class="flex flex-col gap-4">
-
+    {%  if post.category_name %}
+    <!-- Category -->
     <!-- Tag / Badge -->
     <span
       class="w-fit inline-flex items-center
              px-3 py-1 text-xs font-semibold uppercase tracking-wider
              text-primary bg-primary/15
              rounded-full border border-primary/20"
-    >
-      Our Story
-    </span>
-
+    >{{ post.category_name }}</span>
+    {% endif %}
     <!-- Title -->
     <h2 class="text-xl font-semibold leading-snug">
       {{ post.title }}

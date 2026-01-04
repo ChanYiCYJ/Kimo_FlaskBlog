@@ -18,15 +18,22 @@ const vditor = new Vditor('vditor', {
     ],
       toolbarConfig: { pin: true },
        cache: {
-    enable: false
+    enable: false,
+     },
+    after() {
+    if ('{{ postId }}'){
+    let article = `{{ article }}`;
+    console.log(article);
+    vditor.setValue(article);
   }
+  },
     });
 
+    
     document.getElementById('sendBtn').addEventListener('click', async () => {
       const title = document.getElementById('titleInput').value.trim();
       const content = vditor.getValue().trim();
-      const categoryToggle = document.getElementById('CategoryConditions')
-      const category_id =Number(document.getElementById('categoryId').textContent.trim());
+      const categoryToggle = document.getElementById('CategoryConditions').checked
       if (!title) {
         showModal('标题不能为空');
         return;
@@ -36,14 +43,20 @@ const vditor = new Vditor('vditor', {
         showModal('内容不能为空');
         return;
       }
-
-
-      const res = await fetch('/post', {
+      console.log(categoryToggle)
+      if (!categoryToggle) {
+        category_name = null;
+      }
+      else{
+        category_name = document.getElementById('Headline').value;
+      }
+     
+ const res = await fetch('/post', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({ title, content ,category_id})
+  body: JSON.stringify({ title, content ,category_name})
 });
 
 const data = await res.json();
