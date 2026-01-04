@@ -60,10 +60,9 @@ def users():
 @ac.route('/dashboard')
 def dashboard():
     if request.method=='GET':
-        check_user = session.get('user_role')
-        article = 'Dashboard'
-        if check_user == 0:
-            return render_template('dashboard.html', page_title=article, article=article)
 
-        print(check_user)
+        article = 'Dashboard'
+        return render_template('dashboard.html', page_title=article, article=article)
+
+
     return redirect(url_for('account.login'))

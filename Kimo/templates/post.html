@@ -1,48 +1,112 @@
 <!doctype html>
 <html lang="zh">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>{{ config.title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>发布文章</title>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Vditor 样式 -->
-    <link href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css" rel="stylesheet">
+  <!-- Vditor -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vditor/dist/index.css">
+
+  <style>
+    /* 整个编辑器像一个卡片 */ .vditor { border-radius: 0.75rem; border: 1px solid #e5e7eb; overflow: hidden; background: #fff; } /* 工具栏整体：不要紧凑 */ .vditor-toolbar { background-color: #f9fafb; border-bottom: 1px solid #e5e7eb; padding: 5px; /* ⬅️ 比之前更松 */ gap: 28px; /* ⬅️ 按钮之间拉开 */ } /* 工具栏按钮 */ .vditor-toolbar button { border-radius: 0.75rem; /* 更圆一点 */ padding: 10px 12px; /* ⬅️ 不紧凑的关键 */ display: flex; align-items: center; justify-content: center; } /* 图标放大（关键） */ .vditor-toolbar button svg { width: 30px; /* 原来大概 16 */ height: 30px; } /* 工具栏按钮 tooltip 显示在下方 */ /* 自定义 tooltip（下方） */ .vditor-toolbar button[data-tooltip] { position: relative; } .vditor-toolbar button[data-tooltip]::after { content: attr(data-tooltip); position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px); background: #111827; /* gray-900 */ color: #fff; font-size: 12px; padding: 4px 8px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s ease; z-index: 50; } .vditor-toolbar button[data-tooltip]:hover::after { opacity: 1; } /* hover 效果 */ .vditor-toolbar button:hover { background-color: #e5e7eb; } /* 当前激活状态 */ .vditor-toolbar button.vditor-toolbar__item--current { background-color: #dbeafe; } /* 分割线 */ .vditor-toolbar__divider { background-color: #e5e7eb; width: 1px; margin: 0 8px; }
+  </style>
 </head>
 
+<body class="bg-gray-100">
 
-        <!-- 编辑器 -->
-        <section class="md:col-span-2">
-            <div class="bg-white rounded-xl shadow-sm p-4">
-                <div>
+<main class="max-w-7xl mx-auto p-6 space-y-3">
+    <!-- 标题 -->
+            <input
+    class="w-full text-4xl  bg-transparent focus:outline-none ml-3 mb-5"
+    placeholder="文章标题" id="titleInput"
+  >
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 ">
+        <div class="col-span-1 md:col-span-2 space-y-6 basis-3/4">
 
-                    <input
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                            id="titleInput"
-                            placeholder="请输入标题"
-                            type="text"
-                    >
-                </div>
-                <div class="rounded-lg shadow-sm mt-4">
-                    <div id="vditor"></div>
-                </div>
+            <!-- 编辑器 -->
+  <section>
+    <div id="vditor" class=" min-h-[800px]">
+
+    </div>
+  </section>
+        </div>
+
+    <div class="col-span-1">
+        <!-- 操作 -->
+  <div class="flex justify-start gap-3 mb-5">
+    <button class="px-3 py-2 rounded-xl bg-gray-200">保存草稿</button>
+    <button class="px-7 py-2 rounded-xl bg-black text-white" id="sendBtn">发布</button>
+      {% if edit %}
+      <button class="px-7 py-2 rounded-xl bg-black text-white">编辑</button>
+      {% endif %}
+  </div>
+        <aside class="space-y-6 mb-5">
+            <div class="bg-white rounded-xl shadow-sm  p-3">
+                     <!-- 封面 -->
+  <section class="rounded-xl border-2 border-dashed p-6 text-center space-y-6">
+    <p class="text-gray-500 mb-3">文章封面</p>
+    <label class="cursor-pointer inline-block bg-black text-white px-5 py-2 rounded-lg">
+      选择图片
+      <input type="file" hidden>
+    </label>
+  </section>
+    </div>
+            </SECTION>
+            </aside>
+  <!-- 简介 -->
+  <textarea
+    rows="2"
+    class="w-full rounded-xl border border-gray-200 p-4 space-y-6"
+    placeholder="文章简介（可选）"
+  ></textarea>
+
+
+
+
+
+  <!-- 分类 -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6 space-y-6">
+    <div>
+        <div class="flex justify-start gap-3 mt-5 mb-5 ml-1 mb-5">
+      <label class="text-xl font-bold  block">分类</label>
+        <label for="CategoryConditions" class="relative block h-8 w-12 [-webkit-tap-highlight-color:transparent]">
+  <input type="checkbox" id="CategoryConditions" class="peer sr-only">
+
+  <span class="absolute inset-0 m-auto h-2 rounded-full bg-gray-300"></span>
+
+  <span class="absolute inset-y-0 start-0 m-auto size-6 rounded-full bg-gray-500 transition-[inset-inline-start] peer-checked:start-6 peer-checked:*:scale-0">
+    <span class="absolute inset-0 m-auto size-4 rounded-full bg-gray-200 transition-transform">
+    </span>
+  </span>
+</label>
             </div>
-        </section>
-         <aside class="md:col-span-1">
-            <div class="bg-white rounded-xl shadow-sm p-5 space-y-4">
+     <div class="relative hidden" id="CategoryList">
+    <input type="text" id="Headline" list="HeadlineList" placeholder="分类" class="px-3 py-2 mt-0.5 w-full rounded-xl border-black-300 pe-8  sm:text-sm [&amp;::-webkit-calendar-picker-indicator]:opacity-0">
+
+    <span class="absolute inset-y-0 right-0 grid w-8 place-content-center text-black-700">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"></path>
+      </svg>
+    </span>
+  </div>
+
+  <datalist name="Headline" id="HeadlineList">
+      {% for category in categories %}
+    <option id="{{ category.id }}">{{ category.name }}</option>
+      {% endfor %}
+  </datalist>
+
+    </div>
 
 
-                <button
-                        class="w-full bg-black text-white rounded-lg py-2 hover:bg-gray-800 transition"
-                        id="sendBtn"
-                        type="button"
-                >
-                    发布
-                </button>
-            </div>
-        </aside>
+  </section>
+    </div>
+    </div>
+</main>
 <!-- Modal -->
 <div class="fixed inset-0 bg-black/40 flex items-center justify-center hidden"
      id="modal">
@@ -65,12 +129,97 @@ function closeModal() {
   document.getElementById('modal').classList.add('hidden')
 }
 </script>
+<script>
+  const toggle = document.getElementById('CategoryConditions')
 
-<!-- Scripts -->
+  toggle.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      document.getElementById('CategoryList').classList.remove('hidden')
+    } else {
+      document.getElementById('CategoryList').classList.add('hidden')
+    }
+  })
+</script>
+
+<!-- Vditor JS -->
 <script src="https://cdn.jsdelivr.net/npm/vditor/dist/index.min.js"></script>
 
-<script src="/static/js/vditor_send.js"></script>
+<script>
+  const vditor = new Vditor('vditor', {
+      height: 420,
+      placeholder: '在这里输入 Markdown 内容...',
+       toolbar: [
+      'bold',
+      'italic',
+      'strike',
+      'headings',
+      'quote',
+      'code',
+      'inline-code',
+      'list',
+      'ordered-list',
+      'link',
+      'upload',
+      'preview',
+      'fullscreen'
+    ],
+      toolbarConfig: { pin: true },
+       cache: {
+    enable: false,
+     },
+    after() {
+    if ('{{ postId }}'){
+    let article = `{{ article }}`;
+    console.log(article);
+    vditor.setValue(article);
+  }
+  },
+    });
 
+    
+    document.getElementById('sendBtn').addEventListener('click', async () => {
+      const title = document.getElementById('titleInput').value.trim();
+      const content = vditor.getValue().trim();
+      const categoryToggle = document.getElementById('CategoryConditions').checked
+      if (!title) {
+        showModal('标题不能为空');
+        return;
+      }
+
+      if (!content) {
+        showModal('内容不能为空');
+        return;
+      }
+      console.log(categoryToggle)
+      if (!categoryToggle) {
+        category_name = null;
+      }
+      else{
+        category_name = document.getElementById('Headline').value;
+      }
+     
+ const res = await fetch('/post', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ title, content ,category_name})
+});
+
+const data = await res.json();
+
+if (res.ok) {
+  showModal('发布成功');
+  vditor.setValue('');
+
+  setTimeout(() => {
+    window.location.href = '/';
+  }, 800);
+} else {
+  showModal(data.message || '发布失败');
+}
+    });
+</script>
 
 </body>
 </html>
