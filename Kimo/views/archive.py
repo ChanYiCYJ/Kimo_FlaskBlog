@@ -96,7 +96,7 @@ def category():
 @bg.route('/editor', methods=['GET','POST'])
 def editor():
     check_user = session.get('user_role')
-    if check_user == 0:
+    if check_user == 2:
         if request.method == 'GET':
             categories = db.fetchall('select * from categories ', )
             tag = db.fetchall('select * from tags ', )
