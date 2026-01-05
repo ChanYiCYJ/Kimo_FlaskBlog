@@ -1,12 +1,9 @@
 import pymysql
 from dbutils.pooled_db import PooledDB
 from pymysql import cursors
-from werkzeug.security import generate_password_hash, check_password_hash
-
 from Kimo.config import load_config
 
 _db_pool = None
-
 
 def init_db_pool():
     global _db_pool
@@ -95,8 +92,3 @@ def fetch_one(sql, params=None):
         conn.close()
 
 
-def hash_password(password) -> str:
-    return generate_password_hash(password)
-
-def verify_password(password: str, password_hash: str) -> bool:
-    return check_password_hash(password_hash, password)
