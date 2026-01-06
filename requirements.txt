@@ -3,3 +3,5 @@ PyMySQL
 DBUtils
 markdown
 pymdown-extensions
+pypinyin
+beautifulsoup4

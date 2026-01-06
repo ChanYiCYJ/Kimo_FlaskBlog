@@ -57,13 +57,10 @@
     </div>
             </SECTION>
             </aside>
-  <!-- 简介 -->
-  <textarea
-    rows="2"
-    class="w-full rounded-xl border border-gray-200 p-4 space-y-6"
-    placeholder="文章简介（可选）"
-  ></textarea>
-
+    <input rows="2"
+    class="flex flex-wrap w-full rounded-xl border border-gray-200 p-4 space-y-6"
+    placeholder="文章简介（无填写则选取开头）" 
+    id="descrInput">
 
 
 
@@ -180,6 +177,8 @@ function closeModal() {
     document.getElementById('sendBtn').addEventListener('click', async () => {
       const title = document.getElementById('titleInput').value.trim();
       const content = vditor.getValue().trim();
+      const description = document.getElementById('descrInput').value.trim();
+      const description_result = description.trim() === '' ? null : description.trim();
       const categoryToggle = document.getElementById('CategoryConditions').checked
       if (!title) {
         showModal('标题不能为空');
@@ -190,20 +189,18 @@ function closeModal() {
         showModal('内容不能为空');
         return;
       }
-      console.log(categoryToggle)
       if (!categoryToggle) {
         category_name = null;
       }
       else{
         category_name = document.getElementById('Headline').value;
       }
-     
  const res = await fetch('/post', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({ title, content ,category_name})
+  body: JSON.stringify({ title, content ,category_name,description_result})
 });
 
 const data = await res.json();
