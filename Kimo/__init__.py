@@ -7,7 +7,7 @@ def create_app():
     app.secret_key= os.urandom(24)
 
     from  .views import account
-    from .views import archive
+    from .views import article
     app.register_blueprint(account.ac)
-    app.register_blueprint(archive.bg)
+    app.register_blueprint(article.bg)
     return app

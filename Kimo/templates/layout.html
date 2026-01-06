@@ -31,7 +31,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h3 class="font-semibold mb-2">分类</h3>
                     <section class="w-full overflow-hidden">
-    <div class="flex gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
+    <div class="flex flex-wrap gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
         {% if categorys %}
         {% for category in categorys %}
         <button class="flex h-9 shrink-0 items-center justify-center px-5 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary/50 text-[#111618] dark:text-white transition-all active:scale-95">
@@ -54,7 +54,7 @@
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <h3 class="font-semibold mb-2">标签</h3>
                     <section class="w-full overflow-hidden">
-    <div class="flex gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
+    <div class="flex flex-wrap gap-3 px-4 py-3 overflow-x-auto no-scrollbar scroll-smooth">
         {% if tags %}
         {% for tag in tags %}
         <button class="flex h-9 shrink-0 items-center justify-center px-5 rounded-full bg-white dark:bg-surface-dark border border-gray-200 dark:border-gray-700 hover:border-primary/50 text-[#111618] dark:text-white transition-all active:scale-95">

@@ -1,22 +1,22 @@
-from Kimo.models import archives
+from Kimo.models import articles
 import markdown
-def get_all_archives():
-    return archives.get_all_archives()
+def get_all_articles():
+    return articles.get_all_articles()
 
 def get_all_categories():
-    return archives.get_all_categoies()
+    return articles.get_all_categoies()
 
 def get_all_tags():
-    return archives.get_all_tags()
+    return articles.get_all_tags()
 
 def get_category_name_by_id(id):
-    result = archives.get_category_name_by_id(id)
+    result = articles.get_category_name_by_id(id)
     if not result :
         return []
     return result['name']
 
-def get_archive_page(archive_id):
-    result =archives.get_archive_by_id(archive_id)
+def get_article_page(article_id):
+    result =articles.get_article_by_id(article_id)
     print(result)
     if not result:
         return{
@@ -44,7 +44,7 @@ def get_archive_page(archive_id):
         "category_name":category_name,
     }
 
-def send_archive(title,content,category_name):
+def send_article(title,content,category_name):
     if not (title and content):
         return {
             "status":False,
@@ -53,9 +53,9 @@ def send_archive(title,content,category_name):
     if not category_name:
         category_id = None
     else:
-        category_id = archives.get_category_id_by_name(category_name)
+        category_id = articles.get_category_id_by_name(category_name)
         if not category_id:
-           category_result= archives.create_category(category_name)
+           category_result= articles.create_category(category_name)
         if not category_result:
                return{
                    "status":False,
@@ -65,8 +65,8 @@ def send_archive(title,content,category_name):
                    "status":True,
                     "msg":'创建分类名成功'
                }
-    archive_result=archives.create_archive(title,content,category_id)
-    if not archive_result:
+    article_result=articles.create_article(title,content,category_id)
+    if not article_result:
         return{
                    "status":False,
                     "msg":'创建文章失败'
@@ -76,17 +76,17 @@ def send_archive(title,content,category_name):
             "msg":'创建文章成功'
                }
           
-def edit_archive(id):
-    return archives.get_archive_by_id(id)
+def edit_article(id):
+    return articles.get_article_by_id(id)
 
-def delete_archive(id):
-    check = archives.get_archive_by_id(id)
+def delete_article(id):
+    check = articles.get_article_by_id(id)
     if not check:
         return {
             "status": False,
             "msg":"没有找到需要删除的文章"
         }
-    delete_result=archives.delete_archive(id)
+    delete_result=articles.delete_article(id)
     if not delete_result:
         return {
             "status": False,

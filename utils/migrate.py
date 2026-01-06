@@ -17,25 +17,26 @@ TABLES_SQL = [
     """,
 
     """
-    CREATE TABLE  IF NOT EXISTS `archive_tags` (
-  `archive_id` int unsigned NOT NULL,
+    CREATE TABLE  IF NOT EXISTS `article_tags` (
+  `article_id` int unsigned NOT NULL,
   `tag_id` int unsigned NOT NULL,
-  PRIMARY KEY (`archive_id`,`tag_id`),
+  PRIMARY KEY (`article_id`,`tag_id`),
   KEY `tag_id` (`tag_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
     """,
 
     """
-    CREATE TABLE IF NOT EXISTS  `archives` (
+   CREATE TABLE IF NOT EXISTS `articles`  (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `title` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `tagId` int NOT NULL,
-  `category_id` int DEFAULT NULL,
-  UNIQUE KEY `blog_unique` (`id`),
-  KEY `fk_archives_category` (`category_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `category_id` int NULL DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  UNIQUE INDEX `blog_unique`(`id` ASC) USING BTREE,
+  INDEX `fk_archives_category`(`category_id` ASC) USING BTREE,
+  CONSTRAINT `fk_archives_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
     """,
 
     """

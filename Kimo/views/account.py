@@ -13,9 +13,9 @@ def login():
     
     if result['status'] == 2:
         session['user_role']=result['status']
-        return redirect(url_for("archive.editor"))
+        return redirect(url_for("article.editor"))
     print(result['msg'])
-    return redirect(url_for("archive.index"))
+    return redirect(url_for("article.index"))
 
 @ac.route('/register',methods=['GET','POST'])
 def register():

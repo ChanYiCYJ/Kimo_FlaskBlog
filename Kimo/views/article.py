@@ -2,37 +2,37 @@ from flask import Blueprint, render_template, request, session, jsonify,redirect
 
 from Kimo.config import load_config
 from utils import db
-from Kimo.services import ArchivesService as Archive
-bg=Blueprint('archive',__name__)
+from Kimo.services import ArticlesService as Article
+bg=Blueprint('article',__name__)
 
 @bg.route('/',methods=['GET','POST'])
 def index():
-    category_all = Archive.get_all_categories()
-    archive_all = Archive.get_all_archives()
-    tag_all = Archive.get_all_tags()
+    category_all = Article.get_all_categories()
+    article_all = Article.get_all_articles()
+    tag_all = Article.get_all_tags()
     config =load_config('app','config')
     if request.method=='GET':
         return render_template('index.html', page_title=config["title"],
-                               page_subtitle=config["introduction"], config=config, posts=archive_all,categorys=category_all,tags=tag_all)
+                               page_subtitle=config["introduction"], config=config, posts=article_all,categorys=category_all,tags=tag_all)
 
-    return archive_all
+    return article_all
 
-@bg.route('/archive/<int:archive_id>',methods=['GET','POST'])
-def archive(archive_id):
+@bg.route('/article/<int:article_id>',methods=['GET','POST'])
+def article(article_id):
 
-    archive_page = Archive.get_archive_page(archive_id)
-    print(archive_page)
+    article_page = Article.get_article_page(article_id)
+    print(article_page)
     if request.method=='GET':
-        return render_template('archive.html', page_title=archive_page['title'],
-                               page_subtitle=f"Created: {archive_page['created']}", article=archive_page,content=archive_page['content']
+        return render_template('article.html', page_title=article_page['title'],
+                               page_subtitle=f"Created: {article_page['created']}", article=article_page,content=article_page['content']
                                )
 
-    return archive
+    return article_page
 
 
 
 @bg.route('/post', methods=[ 'POST'])
-def archive_post():
+def article_post():
         if request.method == 'POST':
             print('执行post')
             title = request.json.get('title')
@@ -41,7 +41,7 @@ def archive_post():
             print(content)
             print(title)
             print(category_name)
-            create_page=Archive.send_archive(title,content,category_name)
+            create_page=Article.send_article(title,content,category_name)
             if not create_page['status']:
                 return jsonify({'message': create_page['msg']}),500    
             return jsonify({'message': create_page['msg']})
@@ -79,18 +79,18 @@ def editor():
 @bg.route('/editor/<int:post_id>', methods=['GET', 'POST'])
 def edit(post_id):
     print(post_id)
-    result = Archive.edit_archive(post_id)
+    result = Article.edit_article(post_id)
     print(result)
     return render_template('post.html', postId=result['id'], article=result['content'])
 
 
 
 @bg.route('/delete', methods=['POST'])
-def archive_delete():
+def article_delete():
     check_user = session.get('user_role')
     if check_user == 0:
         post_id = request.json.get('post_id')
-        result = Archive.delete_archive(post_id)
+        result = Article.delete_article(post_id)
         if not result['status']:
             return jsonify({'message': result['msg']}),500
         return jsonify({'message': result['msg']})       
