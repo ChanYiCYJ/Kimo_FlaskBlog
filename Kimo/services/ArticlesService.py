@@ -1,5 +1,7 @@
 from Kimo.models import articles
 import markdown
+from utils import pinyin
+from bs4 import BeautifulSoup as bs
 def get_all_articles():
     return articles.get_all_articles()
 
@@ -44,28 +46,27 @@ def get_article_page(article_id):
         "category_name":category_name,
     }
 
-def send_article(title,content,category_name):
+def send_article(title,content,category_name,description):
     if not (title and content):
         return {
             "status":False,
             "msg":'缺少(标题、内容)'
         }
+    print(description)
+    if not description:
+        html = markdown.markdown(content)
+    # 2. HTML → 纯文本
+        soup = bs(html, "html.parser")
+        text = soup.get_text()
+        description =text.strip().replace('\n', '')[:20]
+
     if not category_name:
         category_id = None
     else:
         category_id = articles.get_category_id_by_name(category_name)
         if not category_id:
-           category_result= articles.create_category(category_name)
-        if not category_result:
-               return{
-                   "status":False,
-                    "msg":'创建分类名失败'
-               }
-        return{
-                   "status":True,
-                    "msg":'创建分类名成功'
-               }
-    article_result=articles.create_article(title,content,category_id)
+           articles.create_category(category_name,pinyin.translate(category_name))
+    article_result=articles.create_article(title,content,category_id,description)
     if not article_result:
         return{
                    "status":False,

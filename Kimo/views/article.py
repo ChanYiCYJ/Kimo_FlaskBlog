@@ -38,10 +38,11 @@ def article_post():
             title = request.json.get('title')
             content = request.json.get('content')
             category_name = request.json.get('category_name')
+            description = request.json.get('description')
             print(content)
             print(title)
             print(category_name)
-            create_page=Article.send_article(title,content,category_name)
+            create_page=Article.send_article(title,content,category_name,description)
             if not create_page['status']:
                 return jsonify({'message': create_page['msg']}),500    
             return jsonify({'message': create_page['msg']})

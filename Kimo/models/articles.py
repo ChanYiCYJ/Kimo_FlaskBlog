@@ -9,8 +9,8 @@ def get_article_by_title(titile):
 def get_article_by_id(id):
     return db.fetch_one('SELECT * FROM articles WHERE id=%s',[id])or []
 
-def create_article(title,content,category_id):
-    return db.implement('insert into articles(title,content,category_id) values (%s,%s,%s)', [title, content,category_id])or []
+def create_article(title,content,category_id,description):
+    return db.implement('insert into articles(title,content,category_id,description) values (%s,%s,%s,%s)', [title, content,category_id,description])or []
 
 def delete_article(id):
     return db.implement('delete from articles where id=%s', [id, ])
@@ -24,8 +24,8 @@ def get_category_id_by_name(category_name):
 def get_category_name_by_id(category_id):
     return db.fetch_one('select * from categories where id=%s', [category_id,])or[]
 
-def create_category(name):
-    return db.implement('insert into categories(name,slug) values (%s,%s)',[name,name])or []
+def create_category(name,slug):
+    return db.implement('insert into categories(name,slug) values (%s,%s)',[name,slug])or []
 
 def get_all_tags():
     return db.fetchall('select * from tags ', )or []
